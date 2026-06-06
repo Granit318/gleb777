@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка JSON</title>
+    <style>
+        body { font-family: sans-serif; max-width: 640px; margin: 40px auto; padding: 0 16px; }
+        nav { margin-bottom: 24px; }
+        nav a { margin-right: 16px; }
+        .errors { color: #b00020; margin: 16px 0; }
+        .errors ul { margin: 0; padding-left: 20px; }
+        .messages { margin: 16px 0; padding: 12px; background: #e8f5e9; border-radius: 4px; }
+        .format { background: #f5f5f5; padding: 12px; border-radius: 4px; font-size: 14px; }
+        button { margin-top: 12px; padding: 8px 16px; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'upload_json' %}">Загрузка JSON</a>
+        <a href="{% url 'items_list' %}">Все записи</a>
+    </nav>
+
+    <h1>Загрузка JSON-файла</h1>
+
+    <div class="format">
+        <p>Ожидаемый формат:</p>
+        <pre>[
+    {
+        "name": "random string less than 50 characters",
+        "date": "2026-06-06_14:30"
+    }
+]</pre>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="messages">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="errors">
+                <ul>
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {% if form.json_file.errors %}
+            <div class="errors">
+                <ul>
+                    {% for error in form.json_file.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <p>
+            {{ form.json_file.label_tag }}
+            {{ form.json_file }}
+        </p>
+        {% if form.json_file.help_text %}
+            <p><small>{{ form.json_file.help_text }}</small></p>
+        {% endif %}
+
+        <button type="submit">Загрузить</button>
+    </form>
+</body>
+</html>

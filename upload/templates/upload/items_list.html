@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Записи</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css">
+    <style>
+        body { font-family: sans-serif; max-width: 960px; margin: 40px auto; padding: 0 16px; }
+        nav { margin-bottom: 24px; }
+        nav a { margin-right: 16px; }
+        table { width: 100%; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'upload_json' %}">Загрузка JSON</a>
+        <a href="{% url 'items_list' %}">Все записи</a>
+    </nav>
+
+    <h1>Все записи</h1>
+
+    <table id="items-table" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.date|date:"Y-m-d_H:i" }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
+    <script>
+        new DataTable('#items-table', {
+            order: [[2, 'desc']],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/2.2.2/i18n/ru.json',
+            },
+        });
+    </script>
+</body>
+</html>
