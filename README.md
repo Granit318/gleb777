@@ -1,6 +1,6 @@
-# Тестовое задание — Django
+# DjangoApp by Gleb
 
-Веб-приложение на Django для загрузки JSON-файлов, сохранения данных в PostgreSQL и просмотра записей в таблице с [DataTables](https://datatables.net/).
+Веб-приложение на Django для загрузки JSON-файлов
 
 ## Требования
 
